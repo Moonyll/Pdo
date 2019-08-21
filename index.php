@@ -13,10 +13,12 @@ catch(Exception $e)
 //
 // On récupère tout le contenu de la table
 $reponse_clients = $bdd->query('SELECT * FROM clients');
+$reponse_clients_list = $bdd->query('SELECT * FROM clients');
 $reponse_clients_top_20 = $bdd->query('SELECT * FROM clients LIMIT 0,20');
 $reponse_clients_with_card = $bdd->query('SELECT * FROM clients WHERE card != 0');
 $reponse_clients_M = $bdd->query('SELECT * FROM clients WHERE lastName LIKE \'M%\' ORDER BY lastname ASC');
 $reponse_shows = $bdd->query('SELECT * FROM showTypes');
+$reponse_shows_list = $bdd->query('SELECT * FROM shows ORDER BY title ASC');
 // On affiche chaque entrée une à une
 //
 // Ex 1
@@ -49,12 +51,36 @@ echo "<p>".$donnees_clients_with_card['firstName']." ".$donnees_clients_with_car
 }
 $reponse_clients_with_card->closeCursor(); // Termine le traitement de la requête
 // EX 5
-echo "<h4>"."Ex.4 : Clients avec un nom commençant par M <br/>"."</h4>";
+echo "<h4>"."Ex.5 : Clients avec un nom commençant par M <br/>"."</h4>";
 while ($donnees_clients_M = $reponse_clients_M->fetch())
 {
-echo "<p>"."Nom : ".$donnees_clients_M ['lastName']."</p>";
-echo "<p>"."Prénom : ".$donnees_clients_M['firstName']."</p>";
+echo "<p>"."<strong><i>Nom : </strong></i>".$donnees_clients_M ['lastName']."</p>";
+echo "<p>"."<strong><i>Prénom : </strong></i>".$donnees_clients_M['firstName']."</p>";
 }
 $reponse_clients_M->closeCursor(); // Termine le traitement de la requête
+// EX 6
+echo "<h4>"."Ex.6 : Liste des spectacles <br/>"."</h4>";
+while ($donnees_shows_list = $reponse_shows_list->fetch())
+{
+echo "<p>"."<strong>Titre : </strong>".$donnees_shows_list['title']."<strong> - Artiste : </strong>".$donnees_shows_list['performer']."<strong> - Date : </strong>".$donnees_shows_list['date']."<strong> - Heure : </strong>".$donnees_shows_list['startTime']."</p>";
+
+}
+$reponse_shows_list->closeCursor(); // Termine le traitement de la requête
+// EX 7
+echo "<h4>"."Ex.7 : Liste des clients <br/>"."</h4>";
+while ($donnees_clients_list = $reponse_clients_list->fetch())
+{
+    echo "<p>"."<strong>Nom : </strong>"."<i>".$donnees_clients_list['lastName']."</i>"."</p>";
+    echo "<p>"."<strong>Prénom : </strong>"."<i>".$donnees_clients_list['firstName']."</i>"."</p>";
+    echo "<p>"."<strong>Date de naissance : </strong>"."<i>".$donnees_clients_list['birthDate']."</i>"."</p>";
+    $message = ($donnees_clients_list['card']==1) ? "oui" : "non" ;
+    echo "<p>"."<strong>Carte de fidélité : </strong>"."<i>".$message."</i>"."</p>";
+    $hasCard = ($donnees_clients_list['cardNumber']!=null) ? $donnees_clients_list['cardNumber'] : "N° de carte non attribué" ;
+    echo "<p>"."<strong>N° de carte : </strong>"."<i>".$hasCard."</i>"."</p>";
+    echo "***";
+
+}
+$reponse_clients_list->closeCursor(); // Termine le traitement de la requête
+
 ?>
 
