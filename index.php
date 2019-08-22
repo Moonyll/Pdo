@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- // <link rel="stylesheet" type="text/css" href="pdo.css"> -->
+<title>PDO</title>
+</head>
+<body>
+<h1>PDO - Partie N°1 : Lire Les données<a href="index2.php"></h1>
+<h3><a href="index2.php">Vers PDO - Partie N°2 - Ecrire les données </a></h3>
 <?php
 try
 {
@@ -81,6 +90,7 @@ while ($donnees_clients_list = $reponse_clients_list->fetch())
 
 }
 $reponse_clients_list->closeCursor(); // Termine le traitement de la requête
-
 ?>
+</body>
+</html>
 
